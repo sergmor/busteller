@@ -92,13 +92,13 @@ public class Application extends Controller {
                         		BigDecimal busLon = vas.getMonitoredVehicleJourney().getVehicleLocation().getLongitude();
                         		List<Landmark> places = Places.getNearby(busLat.doubleValue(), busLon.doubleValue(), R);
                         		if(places.size() > 0) {
-                        			String latlng = busLat.toString() + ";" + busLon.toString();
-                        			BusStoryDTO bsd = new BusStoryDTO(vas.getMonitoredVehicleJourney().getVehicleRef().getValue(), places.get(0).toString(), latlng);
+                        			String latlng = busLat.toString() + ";" + busLon.toString();                        			
+                        			BusStoryDTO bsd = new BusStoryDTO(vas.getMonitoredVehicleJourney().getVehicleRef().getValue(), places.get(0).toString(), places.get(0).getLatlng() ,latlng);
                         			resArr[i] = bsd;
                         		}
                         		else {
-                        			String sadStory = "I wish something had happened around here to tell you a story";
-                        			resArr[i] = (new BusStoryDTO("NA",sadStory,"NA;NA"));
+                        			String sadStory = "I wish something had happened around here to tell you about it";
+                        			resArr[i] = (new BusStoryDTO("NA",sadStory,"NA;NA","NA;NA"));
                         		}
                         		i++;
 							}

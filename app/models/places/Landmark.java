@@ -9,11 +9,13 @@ import models.loader.DataLoader;
 import play.db.ebean.Model;
 
 public class Landmark extends Model{
+	
 	public String name;
 	public Date designation;
 	public BigDecimal latitude;
 	public BigDecimal longitude;
 	public String county;
+	public int relevance;
 	public String description;
 	
 	public Landmark(String name, Date designation, BigDecimal latitude,
@@ -32,6 +34,10 @@ public class Landmark extends Model{
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMMMMMM dd, YYYY");
 		return String.format("Did you know that %s was designated as a landmark on %s because %s",
 				this.name, sdf.format(designation),description);
+	}
+	
+	public String getLatlng() {
+		return latitude.toString() + ";" + longitude.toString();
 	}
 	
 	public static void main(String[] args) {
