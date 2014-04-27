@@ -1,4 +1,10 @@
-This is your new Play application
+This is a digitally mediated class project!
 =====================================
 
-This file will be packaged with your application, when using `play dist`.
+For our project, we will focus on Automatic Story Generation. Our objective is to provide an inanimate object with a “voice”, that tells a story. However, while researching for methods, and different approaches to address our objective as we envision it, we will build a functional system with these capabilities. While this task may be looked upon as a simple Software Engineering problem, the literature available shows it is not. Hence, we have divided our problem statement in two parts:
+
+1. Build a System: How do we integrate information produced by varied artificial sources to produce simple coherent text.
+2. Tell a Story: Can we mediate these texts into a simple story about New York City, which involves the aggregated data. 
+
+This idea appealed to us because of the simple fact that stories are omnipresent, they are pervasive, and they can be of immense use in extracting un-apparent but important information from literary sources, or structured data (e.g. Stock market information, weather information). A point worth noting though is that, it has been proved hard to impose structures to stories, and this makes story generation a non-trivial problem from a NLP-NLG perspective. 
+

@@ -5,7 +5,7 @@
 # Home page
 GET     /                           controllers.Application.index()
 GET     /siri                       controllers.Application.siri()
-
+GET     /stories/ 		 			controllers.Application.list()
 
 # Map static resources from the /public folder to the /assets URL path
 
