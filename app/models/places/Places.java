@@ -16,6 +16,15 @@ public enum Places {
 			longitude, county, description));
 	}
 	
+	public static Landmark findByName(String name) {
+		for (Landmark lm : landmarks) {			
+			if(lm.name.equalsIgnoreCase(name)) {
+				return lm;
+			}
+		}		
+		return null;
+	}
+	
 	public static List<Landmark> getNearby(Double lat, Double lon, Double r){
 		List<Landmark> res = new ArrayList<Landmark>();
 		List<Double> dist = new ArrayList<Double>();

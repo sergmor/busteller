@@ -17,6 +17,7 @@ public class Landmark extends Model{
 	public String county;
 	public int relevance;
 	public String description;
+	public String longDescription = null;
 	
 	public Landmark(String name, Date designation, BigDecimal latitude,
 			BigDecimal longitude, String county, String description) {
@@ -26,14 +27,14 @@ public class Landmark extends Model{
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.county = county;
-		this.description = description;
+		this.description = description;		
 	}
 	
 	@Override
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMMMMMM dd, YYYY");
-		return String.format("Did you know that %s was designated as a landmark on %s because %s",
-				this.name, sdf.format(designation),description);
+		return String.format("Did you know that %s was designated as a landmark on %s because %s has %s results",
+				this.name, sdf.format(designation),description,relevance);
 	}
 	
 	public String getLatlng() {
@@ -45,7 +46,11 @@ public class Landmark extends Model{
 		List<Landmark> l = Places.landmarks;
 		System.out.println(l.size());
 		for (Landmark landmark : l) {
-			System.out.println(landmark.toString());
+			//System.out.println(landmark.toString());
+			if(landmark.relevance == 0)
+				System.out.println("RELEVANCE-----"+landmark.name);
+			if(landmark.longDescription == null)
+				System.out.println("DESCRIPTION-----"+landmark);
 		}
 	}
 	

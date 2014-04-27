@@ -8,14 +8,17 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import models.places.Landmark;
 import models.places.Places;
 
 public enum DataLoader {
 
 	INSTANCE;
 
-	final private static String landM = "historical_landmarks.txt"; 
-	final private static String movieM = "movies_locations.txt";
+	final private static String landM = "logs/historical_landmarks.txt"; 
+	final private static String movieM = "logs/movies_locations.txt";
+	final private static String landDesct  = "logs/landmark_descriptions.txt";
+	final private static String landRelev = "logs/lamdmark_search_results.txt";
 
 	public static void loadData() {
 		loadMovies();
@@ -46,10 +49,56 @@ public enum DataLoader {
 				
 			}
 			br.close();
+			addDescriptions(landDesct);
+			addRelevancy(landRelev);
 			
 		}
 		
 
+	}
+
+	private static void addRelevancy(String fileLocation) throws IOException, ParseException {
+		File f = new File(fileLocation);
+		if(f!=null && f.exists()) {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			String line = null;
+			
+			while((line = br.readLine()) != null) {
+			
+				String[] elems = line.split("\t");
+				Landmark lm = Places.findByName(elems[0].trim());
+				if(lm!=null) {
+					lm.relevance = Integer.parseInt(elems[1].trim());
+				}
+				
+			}
+			br.close();
+			
+			
+		}
+		
+	}
+
+	private static void addDescriptions(String fileLocation) throws IOException, ParseException {
+		File f = new File(fileLocation);
+		if(f!=null && f.exists()) {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			String line = null;
+		
+			while((line = br.readLine()) != null) {
+				
+				String[] elems = line.split("\t");
+				Landmark lm = Places.findByName(elems[0]);
+				if(lm!=null) {
+					lm.longDescription = elems[1];
+				}
+				
+			}
+			br.close();
+			
+			
+		}
+		
 	}
 
 	private static void loadMovies() {
