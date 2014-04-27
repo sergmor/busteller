@@ -28,6 +28,8 @@ import play.mvc.Result;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import views.html.stories.list;
+
 public class Application extends Controller {
 	public static final String OBA_API_ROOT = "http://bustime.mta.info/api/where/";
 	public static final String OBA_API_Q = "routes-for-agency/MTA%20NYCT.json";
@@ -41,10 +43,15 @@ public class Application extends Controller {
 	public static final String opVal = "MTA";
 	public static final String line = "LineRef";
 	public static final String lineV = "MTA NYCT_M5";
-	public static final Double R = 5d; 
+	public static final Double R = 1d; 
 	public static Siri siri = null;
+	public static List<BusStoryDTO> busStories= new ArrayList<BusStoryDTO>();
     
 	
+	public static Result list()
+	{
+		return ok(list.render(busStories));
+	}
     
     public static Promise<Result> index() {
         final Promise<Result> resultPromise = WS.url(feedUrl).setQueryParameter(OBA_API_K, OBA_API_KV).get().map(
@@ -91,25 +98,31 @@ public class Application extends Controller {
                         		BigDecimal busLat = vas.getMonitoredVehicleJourney().getVehicleLocation().getLatitude();
                         		BigDecimal busLon = vas.getMonitoredVehicleJourney().getVehicleLocation().getLongitude();
                         		List<Landmark> places = Places.getNearby(busLat.doubleValue(), busLon.doubleValue(), R);
+                        		
                         		if(places.size() > 0) {
-                        			String latlng = busLat.toString() + ";" + busLon.toString();                        			
-                        			BusStoryDTO bsd = new BusStoryDTO(vas.getMonitoredVehicleJourney().getVehicleRef().getValue(), places.get(0).toString(), places.get(0).getLatlng() ,latlng);
+                        			                        			
+                        			BusStoryDTO bsd = new BusStoryDTO(vas.getMonitoredVehicleJourney().getVehicleRef().getValue(), places.get(0).toString(), vas.getMonitoredVehicleJourney().getVehicleLocation().getLatitude().toString(),vas.getMonitoredVehicleJourney().getVehicleLocation().getLongitude().toString(),places.get(0).latitude.toString(),places.get(0).longitude.toString());
                         			resArr[i] = bsd;
+                        			busStories.add(bsd);
                         		}
                         		else {
                         			String sadStory = "I wish something had happened around here to tell you about it";
-                        			resArr[i] = (new BusStoryDTO("NA",sadStory,"NA;NA","NA;NA"));
+                        			resArr[i] = (new BusStoryDTO("NA",sadStory,"NA","NA","NA","NA"));
+                        			busStories.add(new BusStoryDTO("NA",sadStory,"NA","NA","NA","NA"));
                         		}
                         		i++;
 							}
+                        	//busStories.add(resArr[0]);
                         	Gson gson = new Gson();                        	
                         	String jsonPlace = gson.toJson(resArr);
-                		return ok(jsonPlace);
+                        	return redirect(routes.Application.list());
+                        	//return ok(jsonPlace);
                         }
                         else return ok("gson error");
                     }
                 }
         );
+        
         return resultPromise;
     }
 	
