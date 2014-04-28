@@ -89,22 +89,23 @@ public class Application extends Controller {
                 		
                         if(siri!=null) {
                         	if(Places.landmarks.size()==0)DataLoader.loadData();
-                        	DocumentPlanner.INSTANCE.radius = R;
+                        	DocumentPlanner dp = new DocumentPlanner();
+                        	dp.radius = R;
                         	List<VehicleActivityStructure> buses = siri.getServiceDelivery().getVehicleMonitoringDelivery().get(0).getVehicleActivity();
                         	System.out.println("APP-- Will update points");
                         	BusPlanner.INSTANCE.updateActivity(buses);
-                        	Map<String,BusStoryDTO> stories = DocumentPlanner.INSTANCE.pack(R);
+                        	Map<String,BusStoryDTO> stories = dp.pack(R);
                         	Set<String> keys = stories.keySet();
                         	for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
 								String key = iterator.next();
 								busStories.add(stories.get(key));								
 							}
-                        	return redirect(routes.Application.list());
+                        	return ok(list.render(busStories));
                         	/*Gson gson = new Gson();
                         	String jsonPlace = gson.toJson(busStories.toArray());
                         	return ok(jsonPlace);*/
                         }
-                        else return ok("MTA API N/A");
+                        else return internalServerError("MTA API N/A");
                     }
                 }
         );

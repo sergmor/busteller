@@ -113,7 +113,7 @@ public enum DataLoader {
 				Places.INSTANCE.addFiller(id, elems[1]);			
 			}
 			br.close();
-			System.out.println("Added " + i +" fillers");
+			//System.out.println("Added " + i +" fillers");
 			
 		}
 

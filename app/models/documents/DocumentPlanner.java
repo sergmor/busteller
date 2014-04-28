@@ -12,9 +12,9 @@ import models.dto.BusStoryDTO;
 import models.places.Landmark;
 import models.places.Places;
 
-public enum DocumentPlanner {
+public class DocumentPlanner {
 	
-	INSTANCE;
+	
 	public Map<String, BusStoryDTO> sacks = new HashMap<String, BusStoryDTO>();
 	private final int WPM = 80;
 	private final Double EPSILON_R = 0.10D;
@@ -30,9 +30,11 @@ public enum DocumentPlanner {
 		int W = 0;
 		for (Iterator<String> iterator = buses.iterator(); iterator.hasNext();) {
 			String busID =  iterator.next();
-			BusState bus = BusPlanner.INSTANCE.getBusById(busID);
-			if(bus.currentAvgSpeed == 0) continue;
+			BusState bus = BusPlanner.INSTANCE.getBusById(busID);									
 			W = (int) Math.floor(WPM*BusPlanner.INSTANCE.findTimeToExit(busID));
+			//makes no sense to pack standing buses...
+			if(bus.currentAvgSpeed == 0) continue;
+			if(W == 0) continue;
 			//Check where the bus is and decide if it need packing
 			if( (Math.abs(radius-bus.traveledSoFar) <= EPSILON_R*radius)){				
 				//Check that our new list of landmarks will not contain old landmarks
@@ -53,6 +55,7 @@ public enum DocumentPlanner {
 
 	private BusStoryDTO packBus(String id, int W) {
 		//Define total capacity
+		System.out.println("DOC PLAN--- Will pack " + id + " with maximum total cap " + W );
 		BusState bus = BusPlanner.INSTANCE.getBusById(id);
 		List<Landmark> landmarks = Places.getNearby(bus.getLat(), bus.getLon(), radius);
 		int N = landmarks.size()*2;
@@ -94,10 +97,10 @@ public enum DocumentPlanner {
                 res.addLandmarks(lm);
                 if(weight == lm.getSimpleWeight()) {                	
                 	res.addStories(lm.name,lm.description);
-                	System.out.println("adding " + lm.name + "to bus " + res.busId + " short");
+                	System.out.println("adding " + lm.name + " to bus " + res.busId + " short");
                 } else {
                 	res.addStories(lm.name, lm.longDescription);
-                	System.out.println("adding " + lm.name + "to bus " + res.busId + " long");
+                	System.out.println("adding " + lm.name + " to bus " + res.busId + " long");
                 }
                 
                 j -= weight.intValue();
@@ -105,7 +108,7 @@ public enum DocumentPlanner {
             }
         } 
 
-		System.out.println("Created a sol for " + res.busId + " with total "+ solutionWeight + "out of " + W);
+		System.out.println("Created a sol for " + res.busId + " with total "+ solutionWeight + " out of " + W);
 		
 		return res;
 	}

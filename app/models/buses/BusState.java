@@ -85,8 +85,11 @@ public class BusState {
 				DateTime dt1 = new DateTime(d);
 				DateTime dt2 = new DateTime(d1);
 				int seconds  = Seconds.secondsBetween(dt1, dt2).getSeconds();			
-				pointSpeed.add((dist/seconds)*60);		
-				System.out.println("BUS STATE-- Added point speed of "+ (dist/seconds)*60 + " for " +this.vehicleRef);
+				Double pd = (dist/seconds)*60;
+				if(!pd.isNaN()) {
+					pointSpeed.add(pd);		
+					System.out.println("BUS STATE-- Added point speed of "+ (dist/seconds)*60 + " for " +this.vehicleRef);
+				}
 			} else break;
 			
 			
