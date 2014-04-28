@@ -16,14 +16,15 @@ public enum DataLoader {
 	INSTANCE;
 
 	final private static String landM = "logs/historical_landmarks.txt"; 
-	final private static String movieM = "logs/movies_locations.txt";
+	final private static String fillers = "logs/fillers.txt";
 	final private static String landDesct  = "logs/landmark_descriptions.txt";
 	final private static String landRelev = "logs/lamdmark_search_results.txt";
 
 	public static void loadData() {
-		loadMovies();
+		
 		try {
 			loadLandmarks();
+			loadFillers();
 		} catch (IOException e) {
 			System.out.println("failed to load data");
 			e.printStackTrace();
@@ -34,7 +35,7 @@ public enum DataLoader {
 	}
 
 	private static void loadLandmarks() throws IOException, ParseException {
-		File f = new File("logs/historical_landmarks.txt");
+		File f = new File(landM);
 		if(f!=null && f.exists()) {
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			String line = null;
@@ -95,14 +96,26 @@ public enum DataLoader {
 				
 			}
 			br.close();
-			
-			
 		}
 		
 	}
 
-	private static void loadMovies() {
-		// TODO Auto-generated method stub
+	private static void loadFillers() throws IOException, ParseException {
+		File f = new File(fillers);
+		if(f!=null && f.exists()) {
+			BufferedReader br = new BufferedReader(new FileReader(f));
+			String line = null;
+			int i = 0;
+			while((line = br.readLine()) != null) {
+				i++;
+				String[] elems = line.split("\t");				
+				int id = Integer.parseInt(elems[0]);
+				Places.INSTANCE.addFiller(id, elems[1]);			
+			}
+			br.close();
+			System.out.println("Added " + i +" fillers");
+			
+		}
 
 	}
 }

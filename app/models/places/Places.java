@@ -9,6 +9,11 @@ public enum Places {
 	INSTANCE;
 	private static final Double EarthRadius = 3959d;
 	public static List<Landmark> landmarks = new ArrayList<Landmark>();
+	public static List<Filler> fillers = new ArrayList<Filler>();
+	
+	public void addFiller(int id, String text) {
+		fillers.add(new Filler(id, text));
+	}
 	
 	public static void addLandmark(String name, Date designation, BigDecimal latitude,
 			BigDecimal longitude, String county, String description) {
