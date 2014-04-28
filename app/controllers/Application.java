@@ -1,11 +1,11 @@
 package controllers;
 
 import java.io.StringReader;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -13,9 +13,10 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import models.ResponseBean;
+import models.buses.BusPlanner;
+import models.documents.DocumentPlanner;
 import models.dto.BusStoryDTO;
 import models.loader.DataLoader;
-import models.places.Landmark;
 import models.places.Places;
 import models.uk.org.siri.siri.Siri;
 import models.uk.org.siri.siri.VehicleActivityStructure;
@@ -24,11 +25,9 @@ import play.libs.F.Promise;
 import play.libs.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.stories.list;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import views.html.stories.list;
 
 public class Application extends Controller {
 	public static final String OBA_API_ROOT = "http://bustime.mta.info/api/where/";
@@ -90,35 +89,22 @@ public class Application extends Controller {
                 		
                         if(siri!=null) {
                         	if(Places.landmarks.size()==0)DataLoader.loadData();
-                        	
+                        	DocumentPlanner.INSTANCE.radius = R;
                         	List<VehicleActivityStructure> buses = siri.getServiceDelivery().getVehicleMonitoringDelivery().get(0).getVehicleActivity();
-                        	BusStoryDTO[] resArr = new BusStoryDTO[buses.size()];
-                        	int i = 0;
-                        	for (VehicleActivityStructure vas : buses) {
-                        		BigDecimal busLat = vas.getMonitoredVehicleJourney().getVehicleLocation().getLatitude();
-                        		BigDecimal busLon = vas.getMonitoredVehicleJourney().getVehicleLocation().getLongitude();
-                        		List<Landmark> places = Places.getNearby(busLat.doubleValue(), busLon.doubleValue(), R);
-                        		
-                        		if(places.size() > 0) {
-                        			                        			
-                        			BusStoryDTO bsd = new BusStoryDTO(vas.getMonitoredVehicleJourney().getVehicleRef().getValue(), places.get(0).toString(), vas.getMonitoredVehicleJourney().getVehicleLocation().getLatitude().toString(),vas.getMonitoredVehicleJourney().getVehicleLocation().getLongitude().toString(),places.get(0).latitude.toString(),places.get(0).longitude.toString());
-                        			resArr[i] = bsd;
-                        			busStories.add(bsd);
-                        		}
-                        		else {
-                        			String sadStory = "I wish something had happened around here to tell you about it";
-                        			resArr[i] = (new BusStoryDTO("NA",sadStory,"NA","NA","NA","NA"));
-                        			busStories.add(new BusStoryDTO("NA",sadStory,"NA","NA","NA","NA"));
-                        		}
-                        		i++;
+                        	System.out.println("APP-- Will update points");
+                        	BusPlanner.INSTANCE.updateActivity(buses);
+                        	Map<String,BusStoryDTO> stories = DocumentPlanner.INSTANCE.pack(R);
+                        	Set<String> keys = stories.keySet();
+                        	for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+								String key = iterator.next();
+								busStories.add(stories.get(key));								
 							}
-                        	//busStories.add(resArr[0]);
-                        	Gson gson = new Gson();                        	
-                        	String jsonPlace = gson.toJson(resArr);
-                        	return redirect(routes.Application.list());
-                        	//return ok(jsonPlace);
+                        	//return redirect(routes.Application.list());
+                        	Gson gson = new Gson();
+                        	String jsonPlace = gson.toJson(busStories.toArray());
+                        	return ok(jsonPlace);
                         }
-                        else return ok("gson error");
+                        else return ok("MTA API N/A");
                     }
                 }
         );

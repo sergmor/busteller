@@ -41,6 +41,14 @@ public class Landmark extends Model{
 		return latitude.toString() + ";" + longitude.toString();
 	}
 	
+	public int getSimpleWeight() {
+		return description.split(" ").length;
+	}
+	
+	public int getLongWeight() {
+		return longDescription.split(" ").length;
+	}
+	
 	public static void main(String[] args) {
 		DataLoader.INSTANCE.loadData();
 		List<Landmark> l = Places.landmarks;

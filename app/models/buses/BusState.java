@@ -8,6 +8,9 @@ import java.util.List;
 
 import models.uk.org.siri.siri.LocationStructure;
 
+import org.joda.time.DateTime;
+import org.joda.time.Seconds;
+
 public class BusState {
 	
 	private static final Double EarthRadius = 3959d;
@@ -16,7 +19,8 @@ public class BusState {
 	public LinkedList<LocationStructure> locations;
 	public LinkedList<Date> times;
 	public LinkedList<Double> pointSpeed;
-	public Double averageSpeed = 0d;
+	public LinkedList<Double> averageSpeed = new LinkedList<Double>();
+	public Double currentAvgSpeed = 0.0d;
 	public String vehicleRef = "";
 	public Double traveledSoFar = 0d;
 	
@@ -28,24 +32,37 @@ public class BusState {
 		this.times = new LinkedList<Date>();
 		this.pointSpeed = new LinkedList<Double>();
 	}
-
+	
+	public Double getLat() {
+		return locations.peekLast().getLatitude().doubleValue();
+	}
+	
+	public Double getLon() {
+		return locations.peekLast().getLongitude().doubleValue();
+	}
+	
+	
 	public void update(LocationStructure vehicleLocation, Date recordedAtTime) {
 		//Will keep the queue to a size and then call to update average speed
-		LocationStructure tail = locations.peekLast(); 
-		traveledSoFar += calculateDistance(vehicleLocation.getLatitude().doubleValue(), vehicleLocation.getLongitude().doubleValue(), tail.getLatitude().doubleValue(), tail.getLongitude().doubleValue());
+		if(locations.size()>1) {
+			LocationStructure tail = locations.peekLast(); 
+			traveledSoFar += calculateDistance(vehicleLocation.getLatitude().doubleValue(), vehicleLocation.getLongitude().doubleValue(), tail.getLatitude().doubleValue(), tail.getLongitude().doubleValue());
+		}
 		locations.addLast(vehicleLocation);
 		times.addLast(recordedAtTime);
 		if(times.size()>K) {
 			locations.removeFirst();
-			times.removeFirst();			
+			times.removeFirst();		
+			averageSpeed.removeFirst();
 		}
 		updatePointSpeeds();
-		calculateAvgSpeed();
-		 
+		calculateAvgSpeed();	 
 	}
-	
+		
 	private void calculateAvgSpeed() {
-		averageSpeed = average(pointSpeed);		
+		averageSpeed.add(currentAvgSpeed);
+		currentAvgSpeed = average(pointSpeed);
+		System.out.println("Bus " + this.vehicleRef + " has avg speed " + currentAvgSpeed);
 	}
 
 	private void updatePointSpeeds() {
@@ -65,9 +82,11 @@ public class BusState {
 				dist = calculateDistance(lat1, lon1, lat2, lon2);
 				
 				Date d1 = times.get(i+1);
-				long diff = d1.getTime() - d.getTime();
-				long diffHours = diff / 1000 % 60;
-				pointSpeed.add(dist/diffHours);				
+				DateTime dt1 = new DateTime(d);
+				DateTime dt2 = new DateTime(d1);
+				int seconds  = Seconds.secondsBetween(dt1, dt2).getSeconds();			
+				pointSpeed.add((dist/seconds)*60);		
+				System.out.println("BUS STATE-- Added point speed of "+ (dist/seconds)*60 + " for " +this.vehicleRef);
 			} else break;
 			
 			
