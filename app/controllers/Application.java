@@ -99,10 +99,10 @@ public class Application extends Controller {
 								String key = iterator.next();
 								busStories.add(stories.get(key));								
 							}
-                        	//return redirect(routes.Application.list());
-                        	Gson gson = new Gson();
+                        	return redirect(routes.Application.list());
+                        	/*Gson gson = new Gson();
                         	String jsonPlace = gson.toJson(busStories.toArray());
-                        	return ok(jsonPlace);
+                        	return ok(jsonPlace);*/
                         }
                         else return ok("MTA API N/A");
                     }
