@@ -93,10 +93,10 @@ public enum DocumentPlanner {
                 Double weight = weights[i-1];
                 res.addLandmarks(lm);
                 if(weight == lm.getSimpleWeight()) {                	
-                	res.addStories(lm.description);
+                	res.addStories(lm.name,lm.description);
                 	System.out.println("adding " + lm.name + "to bus " + res.busId + " short");
                 } else {
-                	res.addStories(lm.longDescription);
+                	res.addStories(lm.name, lm.longDescription);
                 	System.out.println("adding " + lm.name + "to bus " + res.busId + " long");
                 }
                 
