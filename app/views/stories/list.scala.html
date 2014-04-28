@@ -1,24 +1,8 @@
-@(stories : List[models.dto.BusStoryDTO])
+@(buses : List[models.dto.BusStoryDTO])
 @scripts = {
     <script type="text/javascript">
      
-    var latlong = new Array();
-    /*window.onload=function()
-    {
-        //Display the bus ID
-        document.getElementById("l1").innerHTML= 'Bus-ID1'
-        document.getElementById("l2").innerHTML= 'Bus-ID2'
-        document.getElementById("l3").innerHTML= 'Bus-ID3'
-        document.getElementById("l4").innerHTML= 'Bus-ID4'
-        
-        //Displaythe story of the buses
-        document.getElementById("t1").innerHTML= 'Story1'
-        document.getElementById("t2").innerHTML= 'Story2'
-        document.getElementById("t3").innerHTML= 'Story3'
-        document.getElementById("t4").innerHTML= 'Story4'
-               
-    };   */         
-        
+    var latlong = new Array();            
 	 function initialize() {
 	  var mapOptions = {
 	    zoom: 11,
@@ -31,26 +15,27 @@
 	    
 	    
 	    //Set the latitude and longitude for the buses    	      
-	    @for(story <- stories){			
-			
+	    @for(bus <- buses){						
 		    
 	    	//Bus Locations
-	    	var markerLatLng = new google.maps.LatLng(@story.buslat,@story.busLong);
+	    	var markerLatLng = new google.maps.LatLng(@bus.buslat,@bus.busLong);
 		    var marker = new google.maps.Marker({
 		    position: markerLatLng , 
 		    map: map, 
-		    icon: "https://s3.amazonaws.com/sergmorTest/bus.png",//"https://maps.google.com/mapfiles/kml/shapes/bus.png",
-		    title: 'Bus Name!'
+		    icon: "https://s3.amazonaws.com/sergmorTest/bus.png",
+		    title: @bus.busId
 		   });   
 		  
-		    //Landmark Locations
-	    	var markerLatLng2 = new google.maps.LatLng(@story.placelat,@story.placelng);
-		    var marker = new google.maps.Marker({
-		    position: markerLatLng2 , 
-		    map: map,
-		    icon: "https://s3.amazonaws.com/sergmorTest/marker.png",
-		    title: 'Landmark!'
-		   }); 
+			@for(landmark <- bus.landmarks){					    				    	
+				//Landmark Locations
+		    	var markerLatLng2 = new google.maps.LatLng(@landmark.placelat,@landmark.placelng);
+			    var marker = new google.maps.Marker({
+			    position: markerLatLng2 , 
+			    map: map,
+			    icon: "https://s3.amazonaws.com/sergmorTest/marker.png",
+			    title: @landmark.name
+			   });
+		    }    	
 	    }	    
 	}
 	
@@ -131,10 +116,11 @@
             </thead>
            <tbody>	              	
                 <tr>
-                	@for(story <- stories){	                	
-                    <td> 
-                    	<div class="box">                              
-                            <textarea id="t1" name="b1"; top: 595px; "cols="40" rows="8">@story.story </textarea>
+                	@for(bus <- buses){	                	
+                     <td> 
+                    	<div class="box">   
+                    		<!-- <marquee behavior="scroll" direction="up"> </marquee>-->                           
+                            <textarea id="t1" name="b1"; top: 595px; "cols="50" rows="8"></textarea>
                         </div>
                     </td>
                     }					
