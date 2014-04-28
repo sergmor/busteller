@@ -5,7 +5,7 @@
     var latlong = new Array();            
 	 function initialize() {
 	  var mapOptions = {
-	    zoom: 11,
+	    zoom: 12,
 	    center: new google.maps.LatLng(40.78828, -73.981178),
 	    mapTypeId: google.maps.MapTypeId.MAP
 	  };
@@ -15,40 +15,28 @@
 	    
 	    
 	    //Set the latitude and longitude for the buses    	      
-	    @for(bus <- buses){						
-		    
+	    @for(bus <- buses){								    
 	    	//Bus Locations
-	    	var markerLatLng = new google.maps.LatLng(@bus.buslat,@bus.busLong);
+	    	var markerLatLng = new google.maps.LatLng(@bus.buslat, @bus.busLong);
 		    var marker = new google.maps.Marker({
 		    position: markerLatLng , 
 		    map: map, 
-		    icon: "https://s3.amazonaws.com/sergmorTest/bus.png",
-		    title: @bus.busId
+		    icon: "https://s3.amazonaws.com/sergmorTest/bus.png"
+		    //title: @bus.busId
 		   });   
-		  
-			/*@for(landmark <- bus.landmarks){					    				    	
+		 
+			@for(landmark <- bus.landmarks){					    				    	
 				//Landmark Locations
 		    	var markerLatLng2 = new google.maps.LatLng(@landmark.placelat,@landmark.placelng);
 			    var marker = new google.maps.Marker({
 			    position: markerLatLng2 , 
 			    map: map,
-			    icon: "https://s3.amazonaws.com/sergmorTest/marker.png",
-			    title: @landmark.name
-			   });
-		    }  */  	
+			    icon: "https://s3.amazonaws.com/sergmorTest/marker.png"
+			    //title: @landmark.name
+		  	 });
+	    	} 
 	    }	    
-	}
-	
-	function decodeLevels(encodedLevelsString) 
-	{
-	    var decodedLevels = [];
-	    for (var i = 0; i < encodedLevelsString.length; ++i) {
-	        var level = encodedLevelsString.charCodeAt(i) - 63;
-	        decodedLevels.push(level);
-	    }
-	    return decodedLevels;
-	}
-	        
+	}	       
 	google.maps.event.addDomListener(window, 'load', initialize);	       
 	</script>
 }
