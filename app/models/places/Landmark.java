@@ -33,7 +33,7 @@ public class Landmark extends Model{
 	@Override
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MMMMMMMM dd, YYYY");
-		return String.format("Did you know that %s was designated as a landmark on %s because %s has %s results",
+		return String.format("Did you know that %s was designated as a landmark on %s because %s",
 				this.name, sdf.format(designation),description,relevance);
 	}
 	
@@ -54,7 +54,10 @@ public class Landmark extends Model{
 		List<Landmark> l = Places.landmarks;
 		System.out.println(l.size());
 		for (Landmark landmark : l) {
-			//System.out.println(landmark.toString());
+			System.out.println("SHORT----");
+			System.out.println(landmark.toString());
+			System.out.println("LONG----");
+			System.out.println(landmark.longDescription);
 			if(landmark.relevance == 0)
 				System.out.println("RELEVANCE-----"+landmark.name);
 			if(landmark.longDescription == null)

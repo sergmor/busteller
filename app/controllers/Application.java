@@ -88,7 +88,7 @@ public class Application extends Controller {
                     	 
                 		
                         if(siri!=null) {
-                        	if(Places.landmarks.size()==0)DataLoader.loadData();
+                        	
                         	DocumentPlanner dp = new DocumentPlanner();
                         	dp.radius = R;
                         	List<VehicleActivityStructure> buses = siri.getServiceDelivery().getVehicleMonitoringDelivery().get(0).getVehicleActivity();

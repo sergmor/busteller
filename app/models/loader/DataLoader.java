@@ -21,7 +21,7 @@ public enum DataLoader {
 	final private static String landRelev = "logs/lamdmark_search_results.txt";
 
 	public static void loadData() {
-		
+		System.out.println("DATA L----Loading data...");
 		try {
 			loadLandmarks();
 			loadFillers();
@@ -113,7 +113,7 @@ public enum DataLoader {
 				Places.INSTANCE.addFiller(id, elems[1]);			
 			}
 			br.close();
-			//System.out.println("Added " + i +" fillers");
+			System.out.println("Added " + i +" fillers");
 			
 		}
 

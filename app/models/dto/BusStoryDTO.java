@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.buses.BusState;
 import models.places.Landmark;
+import models.places.StoryType;
 
 
 public class BusStoryDTO{
@@ -33,18 +34,24 @@ public class BusStoryDTO{
 		landmarks = new ArrayList<LandmarkDTO>();
 	}
 
-	public void addLandmarks(Landmark landmark) {
-		LandmarkDTO lm = new LandmarkDTO(landmark.latitude.toString(), landmark.longitude.toString(), landmark.name);
+	public void addLandmarks(Landmark landmark, StoryType st) {
+		String story = st.equals(StoryType.LONG) ? landmark.longDescription : landmark.toString();
+		LandmarkDTO lm = new LandmarkDTO(landmark.latitude.toString(), landmark.longitude.toString(), landmark.name, story);
 		landmarks.add(lm);
 	}
 
-	public void addStories(String name, String stories) {
-		for(LandmarkDTO lm : landmarks) {
-			if(lm.name.equalsIgnoreCase(name)) {
-				lm.story = stories;
-				break;
-			}
+	
+	public String getAllStories() {
+		StringBuffer sb = new StringBuffer("Stories for: ");		
+		sb.append(this.busId);
+		sb.append("\n");
+		for(LandmarkDTO lm: landmarks) {
+			sb.append(lm.name + "--- ");
+			sb.append("\n");
+			sb.append(lm.story);
+			sb.append("\n");
 		}
+		return sb.toString();
 	}
 
 

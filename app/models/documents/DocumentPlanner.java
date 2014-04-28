@@ -11,6 +11,7 @@ import models.buses.BusState;
 import models.dto.BusStoryDTO;
 import models.places.Landmark;
 import models.places.Places;
+import models.places.StoryType;
 
 public class DocumentPlanner {
 	
@@ -55,10 +56,11 @@ public class DocumentPlanner {
 
 	private BusStoryDTO packBus(String id, int W) {
 		//Define total capacity
-		System.out.println("DOC PLAN--- Will pack " + id + " with maximum total cap " + W );
+		
 		BusState bus = BusPlanner.INSTANCE.getBusById(id);
 		List<Landmark> landmarks = Places.getNearby(bus.getLat(), bus.getLon(), radius);
 		int N = landmarks.size()*2;
+		System.out.println("DOC PLAN--- Will pack " + id + " with maximum total cap " + W + "and " + N + " elems");
 		BusStoryDTO res = new BusStoryDTO(bus);
 		//Calculate values and weights from landmarks. Values are relevance
 		//weights the number of words in their long/short description
@@ -93,14 +95,13 @@ public class DocumentPlanner {
             )
             {
                 Landmark lm = landmarks.get((i-1)%landmarks.size());
-                Double weight = weights[i-1];
-                res.addLandmarks(lm);
-                if(weight == lm.getSimpleWeight()) {                	
-                	res.addStories(lm.name,lm.description);
-                	System.out.println("adding " + lm.name + " to bus " + res.busId + " short");
-                } else {
-                	res.addStories(lm.name, lm.longDescription);
+                Double weight = weights[i-1];                
+                if(weight == lm.getLongWeight()) {                	
+                	res.addLandmarks(lm, StoryType.LONG);
                 	System.out.println("adding " + lm.name + " to bus " + res.busId + " long");
+                } else {
+                	res.addLandmarks(lm, StoryType.SHORT);
+                	System.out.println("adding " + lm.name + " to bus " + res.busId + " short");
                 }
                 
                 j -= weight.intValue();

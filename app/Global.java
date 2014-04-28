@@ -1,4 +1,4 @@
-package controllers;
+
 import models.loader.DataLoader;
 import models.places.Places;
 import play.Application;
@@ -14,6 +14,4 @@ public class Global extends GlobalSettings {
 			DataLoader.loadData();
 		}
 	}
-
-
 }
