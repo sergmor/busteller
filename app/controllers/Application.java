@@ -14,10 +14,10 @@ import javax.xml.transform.stream.StreamSource;
 
 import models.ResponseBean;
 import models.buses.BusPlanner;
+import models.documents.DocumentEvaluator;
 import models.documents.DocumentPlanner;
+import models.documents.SolutionEvaluation;
 import models.dto.BusStoryDTO;
-import models.loader.DataLoader;
-import models.places.Places;
 import models.uk.org.siri.siri.Siri;
 import models.uk.org.siri.siri.VehicleActivityStructure;
 import play.libs.F.Function;
@@ -50,6 +50,17 @@ public class Application extends Controller {
 	public static Result list()
 	{
 		return ok(list.render(busStories));
+	}
+	
+	public static Result stories(String busId) {
+		List<SolutionEvaluation> sols = DocumentEvaluator.INSTANCE.getEvaluations(busId);
+		if(sols != null) {
+			for(SolutionEvaluation se : sols) {
+				se.evaluateSolution();
+			}
+		}
+		//TODO return the appropriate thing!
+		return ok();
 	}
     
     public static Promise<Result> index() {
@@ -88,7 +99,7 @@ public class Application extends Controller {
                     	 
                 		
                         if(siri!=null) {
-                        	
+                        	busStories.clear();
                         	DocumentPlanner dp = new DocumentPlanner();
                         	dp.radius = R;
                         	List<VehicleActivityStructure> buses = siri.getServiceDelivery().getVehicleMonitoringDelivery().get(0).getVehicleActivity();

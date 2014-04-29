@@ -66,7 +66,10 @@ public class DocumentPlanner {
 		//weights the number of words in their long/short description
 		Double[] vals = createValues(landmarks);
 		Double[] weights = createWeights(landmarks);
-		
+		if(N == 0) {
+			//TODO add fillers
+			return res;
+		}
 		//Create objects for evaluation
 		SolutionEvaluation se = new SolutionEvaluation();
 		se.N = N;
@@ -120,7 +123,7 @@ public class DocumentPlanner {
 
 		System.out.println("Created a sol for " + res.busId + " with total "+ solutionWeight + " out of " + W);
 		se.selected = res.landmarks;
-		DocumentEvaluator.INSTANCE.addSolution(se);
+		DocumentEvaluator.INSTANCE.addSolution(res.busId, se);
 		return res;
 	}
 	private Double[] createWeights(List<Landmark> landmarks) {

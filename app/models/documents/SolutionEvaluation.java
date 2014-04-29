@@ -2,6 +2,7 @@ package models.documents;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import models.dto.LandmarkDTO;
@@ -16,6 +17,7 @@ public class SolutionEvaluation {
 	public int value;
 	public Double precision;
 	public Double recall;
+	public Date timestamp;
 	
 	public SolutionEvaluation() {
 		
@@ -27,6 +29,10 @@ public class SolutionEvaluation {
 	
 	public void evaluateSolution() {
 		
+	}
+	
+	public void stamp() {
+		this.timestamp = new Date(System.currentTimeMillis());
 	}
 	
 	
