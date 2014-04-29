@@ -1,5 +1,6 @@
 package models.documents;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 import models.buses.BusPlanner;
 import models.buses.BusState;
 import models.dto.BusStoryDTO;
+import models.places.Filler;
 import models.places.Landmark;
 import models.places.Places;
 import models.places.StoryType;
@@ -19,6 +21,7 @@ public class DocumentPlanner {
 	public Map<String, BusStoryDTO> sacks = new HashMap<String, BusStoryDTO>();
 	private final int WPM = 80;
 	private final Double EPSILON_R = 0.10D;
+	private final Double FILLER_T = 0.8D;
 	public Double radius; 
 	
 	
@@ -67,7 +70,12 @@ public class DocumentPlanner {
 		Double[] vals = createValues(landmarks);
 		Double[] weights = createWeights(landmarks);
 		if(N == 0) {
-			//TODO add fillers
+			System.out.println("DOC PLAN--- FAILED No places nearby Just shooting for fillers");
+			List<Landmark> fillers = createFillers(W,0);
+			for(Landmark f : fillers) {
+				res.addLandmarks(f, StoryType.FILLER);
+			}
+			
 			return res;
 		}
 		//Create objects for evaluation
@@ -120,12 +128,38 @@ public class DocumentPlanner {
                 solutionWeight += weight;                
             }
         } 
-
+		
 		System.out.println("Created a sol for " + res.busId + " with total "+ solutionWeight + " out of " + W);
 		se.selected = res.landmarks;
 		DocumentEvaluator.INSTANCE.addSolution(res.busId, se);
+		if(solutionWeight < Math.floor(W*FILLER_T)) {
+			System.out.println("Solution has less than " + FILLER_T + " adding Fillers");
+			List<Landmark> fillers = createFillers(W,solutionWeight);
+			for(Landmark f : fillers) {
+				res.addLandmarks(f, StoryType.FILLER);
+			}
+		}
 		return res;
 	}
+	
+	private List<Landmark> createFillers(int W, int sol){
+		List<Landmark> res = new ArrayList<Landmark>();
+		int soFar = sol;
+		int i = 0;
+		Filler f = Places.INSTANCE.getFiller(i);
+		int max = Places.INSTANCE.howManyFillers()-1;
+		int value = f.text.split(" ").length; 
+		while (soFar + value < W && i < max) {
+			res.add(f.asLandmark());
+			soFar += value; 
+			i++;
+			value = f.text.split(" ").length;
+			f = Places.INSTANCE.getFiller(i);
+		}
+		System.out.println("FILLER---- Achieved " + soFar + " from " + sol + " out of " + W);
+		return res;
+	}
+	
 	private Double[] createWeights(List<Landmark> landmarks) {
 		Double[] res = new Double[2*landmarks.size()];
 		for (int i = 0; i < landmarks.size(); i++) {

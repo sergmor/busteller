@@ -59,8 +59,11 @@ public class Application extends Controller {
 				se.evaluateSolution();
 			}
 		}
-		//TODO return the appropriate thing!
-		return ok();
+		//TODO return the appropriate thing!		
+		//return ok();
+		Gson gson = new Gson();
+    	String jsonPlace = gson.toJson(sols.toArray());
+    	return ok(jsonPlace);
 	}
     
     public static Promise<Result> index() {

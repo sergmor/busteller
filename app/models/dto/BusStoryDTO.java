@@ -38,6 +38,14 @@ public class BusStoryDTO{
 	}
 
 	public void addLandmarks(Landmark landmark, StoryType st) {
+		if(st.equals(StoryType.FILLER)) {
+			String story = landmark.description;
+			LandmarkDTO lm = new LandmarkDTO("N/A", "N/A", landmark.name, story,st);
+			landmarks.add(lm);
+			lmNames.add(landmark.name);
+			return;
+		}
+		
 		String story = st.equals(StoryType.LONG) ? landmark.longDescription : landmark.toString();
 		LandmarkDTO lm = new LandmarkDTO(landmark.latitude.toString(), landmark.longitude.toString(), landmark.name, story,st);
 		landmarks.add(lm);

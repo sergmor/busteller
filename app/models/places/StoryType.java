@@ -1,5 +1,5 @@
 package models.places;
 
 public enum StoryType {
-	LONG, SHORT
+	LONG, SHORT, FILLER
 }

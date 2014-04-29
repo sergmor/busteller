@@ -2,6 +2,7 @@ package models.places;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,12 @@ public enum Places {
 		return null;
 	}
 	
+	public Filler getFiller(int i) {
+		Collections.sort(fillers);
+		return fillers.get(i);
+		
+	}
+	
 	public static List<Landmark> getNearby(Double lat, Double lon, Double r){
 		List<Landmark> res = new ArrayList<Landmark>();
 		List<Double> dist = new ArrayList<Double>();
@@ -43,6 +50,10 @@ public enum Places {
 		}
 		
 		return res;
+	}
+	
+	public int howManyFillers() {
+		return fillers.size();
 	}
 	
 	private static Double calculateDistance(Double lat1, Double lon1, Double lat2, Double lon2) {	    
