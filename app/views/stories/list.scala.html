@@ -97,21 +97,20 @@
     <div id="map-canvas"></div>
     <div class="container">
         <table class="table table-striped">
-           <thead>
-              <tr>
-                <th>story</th>
-              </tr>
-            </thead>
            <tbody>	              	
                 <tr>
-                	@for(bus <- buses){	                	
-                     <td> 
-                    	<div class="box">   
-                    		<!-- <marquee behavior="scroll" direction="up"> </marquee>-->                           
-                            <textarea id="t1" name="b1"; top: 595px; "cols="50" rows="8">@bus.getAllStories()</textarea>
-                        </div>
-                    </td>
-                    }					
+	                @for(bus <- buses){
+	               	<div class="panel panel-default">
+  						<div class="panel-heading">
+					    	<h3 class="panel-title" style="font-family:Book Antiqua; color: #000000">@bus.busId</h3>
+				  		</div>
+				  		<div class="panel-body">
+				  			<marquee style="font-family:Book Antiqua; color: #000000" bgcolor="#FFFFFF" behavior="scroll" direction="up" scrolldelay="500">@bus.getAllStories() </marquee>				    		
+				  		</div>
+					</div>
+	                }
+
+                				
                 </tr>
            </tbody>
         </table>                
