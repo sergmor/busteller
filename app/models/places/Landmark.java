@@ -8,7 +8,7 @@ import java.util.List;
 import models.loader.DataLoader;
 import play.db.ebean.Model;
 
-public class Landmark extends Model{
+public class Landmark extends Model implements Comparable<Landmark>{
 	
 	public String name;
 	public Date designation;
@@ -64,6 +64,14 @@ public class Landmark extends Model{
 				System.out.println("DESCRIPTION-----"+landmark);
 		}
 	}
+
+	@Override
+	public int compareTo(Landmark lm) {
+		int compareQ = lm.relevance;		
+		return compareQ-this.relevance;
+	}
+
+	
 	
 	
 }

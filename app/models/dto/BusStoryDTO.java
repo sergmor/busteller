@@ -1,7 +1,9 @@
 package models.dto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import models.buses.BusState;
 import models.places.Landmark;
@@ -15,6 +17,7 @@ public class BusStoryDTO{
 	public List<LandmarkDTO> landmarks;
 	public String buslat;
 	public String busLong;
+	public Set<String> lmNames = new HashSet<String>();
 	
 
 	public BusStoryDTO(String ref, String buslat, String busLong) {
@@ -36,15 +39,20 @@ public class BusStoryDTO{
 
 	public void addLandmarks(Landmark landmark, StoryType st) {
 		String story = st.equals(StoryType.LONG) ? landmark.longDescription : landmark.toString();
-		LandmarkDTO lm = new LandmarkDTO(landmark.latitude.toString(), landmark.longitude.toString(), landmark.name, story);
+		LandmarkDTO lm = new LandmarkDTO(landmark.latitude.toString(), landmark.longitude.toString(), landmark.name, story,st);
 		landmarks.add(lm);
+		lmNames.add(landmark.name);
+	}
+	
+	public boolean containsLandmark(String name) {
+		return lmNames.contains(name);
 	}
 
 	
 	public String getAllStories() {
-		StringBuffer sb = new StringBuffer("Stories for: ");		
-		sb.append(this.busId);
-		sb.append("\n");
+		StringBuffer sb = new StringBuffer("");		
+		//sb.append(this.busId);
+		//sb.append("\n");
 		for(LandmarkDTO lm: landmarks) {
 			sb.append(lm.name + "--- ");
 			sb.append("\n");

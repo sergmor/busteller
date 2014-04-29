@@ -55,18 +55,25 @@ public class DocumentPlanner {
 	}
 
 	private BusStoryDTO packBus(String id, int W) {
-		//Define total capacity
 		
+		//Define total capacity		
 		BusState bus = BusPlanner.INSTANCE.getBusById(id);
 		List<Landmark> landmarks = Places.getNearby(bus.getLat(), bus.getLon(), radius);
 		int N = landmarks.size()*2;
-		System.out.println("DOC PLAN--- Will pack " + id + " with maximum total cap " + W + "and " + N + " elems");
+		System.out.println("DOC PLAN--- Will pack " + id + " with maximum total cap " + W + " and " + N + " elems");
 		BusStoryDTO res = new BusStoryDTO(bus);
 		//Calculate values and weights from landmarks. Values are relevance
 		//weights the number of words in their long/short description
 		Double[] vals = createValues(landmarks);
 		Double[] weights = createWeights(landmarks);
 		
+		//Create objects for evaluation
+		SolutionEvaluation se = new SolutionEvaluation();
+		se.N = N;
+		se.W = W;
+		se.options = landmarks;
+		
+		//Initialize Matrix
 		Double[][] mat = new Double[N][W];
 		//Do something!
 		for(int j = 0; j < W; j++) {
@@ -94,7 +101,9 @@ public class DocumentPlanner {
                 (i > 0  &&  tempI != tempI_1)
             )
             {
-                Landmark lm = landmarks.get((i-1)%landmarks.size());
+                
+            	Landmark lm = landmarks.get((i-1)%landmarks.size());
+            	if(res.containsLandmark(lm.name)) continue;
                 Double weight = weights[i-1];                
                 if(weight == lm.getLongWeight()) {                	
                 	res.addLandmarks(lm, StoryType.LONG);
@@ -110,7 +119,8 @@ public class DocumentPlanner {
         } 
 
 		System.out.println("Created a sol for " + res.busId + " with total "+ solutionWeight + " out of " + W);
-		
+		se.selected = res.landmarks;
+		DocumentEvaluator.INSTANCE.addSolution(se);
 		return res;
 	}
 	private Double[] createWeights(List<Landmark> landmarks) {
