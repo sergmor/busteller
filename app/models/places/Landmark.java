@@ -35,7 +35,7 @@ public class Landmark extends Model implements Comparable<Landmark>{
 		if(latitude == null && longitude == null) {
 			return description;
 		}else {
-		SimpleDateFormat sdf = new SimpleDateFormat("MMMMMMMM dd, YYYY");
+		SimpleDateFormat sdf = new SimpleDateFormat("MMMMMMMM dd, yyyy");
 		return String.format("Did you know that %s was designated as a landmark on %s because %s",
 				this.name, sdf.format(designation),description,relevance);
 		}
