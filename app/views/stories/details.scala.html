@@ -1,12 +1,12 @@
-@(buses : List[models.dto.BusStoryDTO])
+@(bus : models.dto.BusStoryDTO)
 @scripts = {
     <script type="text/javascript">
      
     var latlong = new Array();            
 	 function initialize() {
 	  var mapOptions = {
-	    zoom: 12,
-	    center: new google.maps.LatLng(40.78828, -73.981178),
+	    zoom: 14,
+	    center: new google.maps.LatLng(@bus.buslat, @bus.busLong),
 	    mapTypeId: google.maps.MapTypeId.MAP
 	  };
 	
@@ -14,8 +14,7 @@
 	      mapOptions);
 	    
 	    
-	    //Set the latitude and longitude for the buses    	      
-	    @for(bus <- buses){								    
+	    //Set the latitude and longitude for the buses    	      	    						   
 	    	//Bus Locations
 	    	var markerLatLng = new google.maps.LatLng(@bus.buslat, @bus.busLong);
 		    var marker = new google.maps.Marker({
@@ -25,19 +24,17 @@
 		    //title: @bus.busId
 		   });   
 		 
-			@for(landmark <- bus.landmarks){
-				@if(!(landmark.placelat == "N/A")){
-					//Landmark Locations
-			    	var markerLatLng2 = new google.maps.LatLng(@landmark.placelat,@landmark.placelng);
-				    var marker = new google.maps.Marker({
-				    position: markerLatLng2 , 
-				    map: map,
-				    icon: "https://s3.amazonaws.com/sergmorTest/marker.png"
-				    //title: @landmark.name
-		  	 	});
-			   }
+			@for(landmark <- bus.landmarks){					    				    	
+				//Landmark Locations
+		    	var markerLatLng2 = new google.maps.LatLng(@landmark.placelat,@landmark.placelng);
+			    var marker = new google.maps.Marker({
+			    position: markerLatLng2 , 
+			    map: map,
+			    icon: "https://s3.amazonaws.com/sergmorTest/marker.png"
+			    //title: @landmark.name
+		  	 });
 	    	} 
-	    }	    
+	   	    
 	}	       
 	google.maps.event.addDomListener(window, 'load', initialize);	       
 	</script>
@@ -62,28 +59,30 @@
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
     rel="stylesheet">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"
-    rel="stylesheet">     
+    rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800 <http://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800>"
+    rel="stylesheet" type="text/css">
+      
 
     <style>
-    	
-    html{
+      
+      html{
 		  background: url(https://s3.amazonaws.com/sergmorTest/background.jpg) no-repeat center center fixed; 
 		  -webkit-background-size: cover;
 		  -moz-background-size: cover;
 		  -o-background-size: cover;
 		  background-size: cover;
-      }	
-      html, body {
-        height: 500px;
-        margin: 35px;
-        width: 1000px;
-        padding: 0px
       }
-      
+      html, body{
+        height: 85%;
+        margin-top: 30px;
+        margin-left: 100px;
+        width: 550px;
+        padding: 0px;
+      }
       #map-canvas{
-      height: 500px;
-      }
-            
+      height: 85%;}
+      
     </style>
     <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
     <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&amp;sensor=false"></script>
@@ -97,34 +96,43 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">busVoice</a>
+          <a class="navbar-brand" href="#">busTales</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-           </ul>
+            <li class="active">
+              <a href="">Home</a>
+            </li>
+          </ul>
         </div>
         <!--/.nav-collapse -->
     </div>
-	    <table>
-	    	<tr>
-	    		<td>
-	    			<div id="map-canvas" style="width: 1000px"></div>
-	    		</td>
-	    		<td>
-	    			<div class="panel panel-default" style="width: 200px; top: 70px; position: absolute;">
-	  						<div class="panel-heading">
-						    	<b class="panel-title" style="font-family: Dosis; font-style: normal; color: #000000"> Active Buses</b>
-					  		</div>					  		
-						  		<div class="panel-body">
-						  		@for(bus <- buses){
-						  			<p style="font-family: Dosis; font-style: normal"><a href="@routes.Application.details(bus.busId)">@bus.busId</a></p>
-						  		}	
-						  			<!--<marquee style="font-family:Book Antiqua; color: #000000" bgcolor="#FFFFFF" behavior="scroll" direction="up" scrolldelay="500"> </marquee>  -->				    		
-						  		</div>				  		
-					</div>
-	    		</td>
-	    	</tr>    	
-	    </table>	    	
+    <div id="map-canvas"></div>
+
+        <table class="table table-striped" style="margin: 35px;">
+           <tbody>	              	
+                <tr>
+	               	<div class="panel panel-default">
+  						<div class="panel-heading">
+					    	<b class="panel-title" style="font-family:'Dosis'; color: #000000">@bus.busId</b>
+				  		</div>
+				  		<div class="panel-body" style="font-family: Dosis; font-style: normal">
+				  		@for(landmark <- bus.landmarks){
+					  		<p>
+					  			<b>@landmark.name</b>
+					  		</p>
+					  		<p>
+					  			@landmark.story
+					  		</p>
+					  		<p>
+					  		</p>
+				  		}				  							    	
+				  		</div>
+					</div>               				
+                </tr>
+           </tbody>
+        </table>                
+
   </body>
 </html>
 }

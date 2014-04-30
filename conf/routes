@@ -6,6 +6,7 @@
 GET     /                           controllers.Application.index()
 GET     /siri                       controllers.Application.siri()
 GET     /stories/ 		 			controllers.Application.list()
+GET     /buses/:busId 		 	controllers.Application.details(busId: String)
 GET     /stories/:busId 		 	controllers.Application.stories(busId: String)
 # Map static resources from the /public folder to the /assets URL path
 
