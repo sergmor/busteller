@@ -1,0 +1,99 @@
+@(histories : List[models.documents.SolutionEvaluation] , busId : String)
+@scripts = {
+    <script type="text/javascript">           
+	</script>
+}
+
+@main("BusTeller") {
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">-->
+    <meta charset="utf-8">
+    <title>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>
+      busTales
+    </title>
+      
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+    rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"
+    rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800 <http://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800>"
+    rel="stylesheet" type="text/css">
+      
+
+    <style>
+      
+      html{
+		  background: url(https://s3.amazonaws.com/sergmorTest/background.jpg) no-repeat center center fixed; 
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+      }
+      html, body{
+        height: 85%;
+        margin-top: 30px;
+        margin-left: 100px;
+        width: 550px;
+        padding: 0px;
+      }
+      
+    </style>
+    <!--<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>-->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry&amp;sensor=false"></script>
+   	@scripts    
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">busTales</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+        <table class="table table-striped" style="margin: 35px;">
+           <tbody>
+           	 @if(history != null){
+           		@for(history <- histories){
+           		 <tr>
+	               	<div class="panel panel-default">
+  						<div class="panel-heading">
+					    	<b class="panel-title" style="font-family:'Dosis'; color: #000000">@busId :- @history.toString()</b>
+				  		</div>
+				  		<div class="panel-body" style="font-family: Dosis; font-style: normal">
+				  		@for(landmark <- history.selected){
+					  		<p>
+					  			<b>@landmark.name</b>
+					  		</p>
+					  		<p>
+					  			@landmark.story
+					  		</p>
+					  		<p>
+					  		</p>
+				  		}				  							    	
+				  		</div>
+					</div>               				
+               	 </tr>
+           		}
+           	  }	              	               
+           </tbody>
+        </table>                
+
+  </body>
+</html>
+}

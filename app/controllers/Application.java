@@ -27,6 +27,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.stories.list;
 import views.html.stories.details;
+import views.html.stories.history;
 
 import com.google.gson.Gson;
 
@@ -75,7 +76,8 @@ public class Application extends Controller {
 		//TODO return the appropriate thing!		
 		//return ok();
 		
-    	return ok(sols.toString());
+    	//return ok(history.render(sols.toString()));
+		return ok(history.render(sols, busId));
 	}
     
     public static Promise<Result> index() {
