@@ -64,6 +64,31 @@ public class Application extends Controller {
 		return ok(details.render(null));
 	}
 	
+	public static Result results() {
+		
+		Double precisionAvg=0d;
+		Double recallAvg=0d;
+		int totalSols=0;
+		
+		Set<String> keys = BusPlanner.INSTANCE.getBuses();
+    	for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+			String key = iterator.next();
+			List<SolutionEvaluation> sols = DocumentEvaluator.INSTANCE.getEvaluations(key);
+			if(sols != null) {
+				for(SolutionEvaluation se : sols) {
+					se.evaluateSolution();
+					precisionAvg += se.precision;
+					recallAvg += se.recall;
+					totalSols ++;
+				}
+			}
+			
+		}
+    	
+		return ok(String.format("The average precision so far is %f. "
+				+ "The average recall so far is %f",  (precisionAvg/totalSols), recallAvg/totalSols));
+	}
+	
 	public static Result stories(String busId) {
 		//busId = new String("MTA " + busId);
 		List<SolutionEvaluation> sols = DocumentEvaluator.INSTANCE.getEvaluations(busId);

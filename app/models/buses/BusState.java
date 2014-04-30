@@ -26,12 +26,15 @@ public class BusState {
 	
 	
 	
+	
 	public BusState(String ref) {
 		this.vehicleRef = ref;
 		this.locations = new LinkedList<LocationStructure>();
 		this.times = new LinkedList<Date>();
 		this.pointSpeed = new LinkedList<Double>();
 	}
+	
+	
 	
 	public Double getLat() {
 		return locations.peekLast().getLatitude().doubleValue();

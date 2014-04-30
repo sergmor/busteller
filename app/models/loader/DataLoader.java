@@ -15,10 +15,10 @@ public enum DataLoader {
 
 	INSTANCE;
 
-	final private static String landM = "logs/historical_landmarks.txt"; 
-	final private static String fillers = "logs/fillers.txt";
-	final private static String landDesct  = "logs/landmark_descriptions.txt";
-	final private static String landRelev = "logs/lamdmark_search_results.txt";
+	final private static String landM = "assets/historical_landmarks.txt"; 
+	final private static String fillers = "assets/fillers.txt";
+	final private static String landDesct  = "assets/landmark_descriptions.txt";
+	final private static String landRelev = "assets/lamdmark_search_results.txt";
 
 	public static void loadData() {
 		System.out.println("DATA L----Loading data...");

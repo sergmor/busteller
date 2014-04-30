@@ -78,8 +78,8 @@ public class SolutionEvaluation {
 			Landmark lm = check.get(i);
 			for(int j=0; j<selected.size(); j++) {
 				if(lm.name.equalsIgnoreCase(selected.get(j).name)) {					
-					System.out.println("Had " + lm.name + " and got "+ selected.get(j).name + " go BUS! " + res);
 					res++;
+					System.out.println("Had " + lm.name + " and got "+ selected.get(j).name + " go BUS! " + res);
 					continue;
 				}
 			}

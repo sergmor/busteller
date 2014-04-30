@@ -1,0 +1,114 @@
+69th Regiment Armory	155000
+Admiral David Glasgow Farragut Gravesite	1700
+African Burial Ground	1990000
+Ambrose (lightship)	35600
+American Stock Exchange	164000000
+Louis Armstrong House	 27600000
+Chester A. Arthur House	1490000
+Alice Austen House	 3550000
+Bartow-Pell Mansion	69600
+Bayard-Condict Building	10600
+Bell Laboratories Building	2300000
+Bronx Community College	18300000
+Brooklyn Bridge	62300000
+Brooklyn Heights Historic District	256000
+Brooklyn Historical Society Building	21800000
+Ralph Johnson Bunche House	14700
+Carnegie Hall	25500000
+Andrew Carnegie Mansion	103000
+Central Park	960000000
+Central Synagogue	10500000
+Chamber of Commerce Building	55300000
+Chrysler Building	31600000
+Church of the Ascension	4770000
+City Hall	1120000000
+Conference House	1290000000
+Will Marion Cook House	13200000
+Cooper Union	101000000
+Daily News Building	1090000000
+Dakota Apartments	44600000
+Dyckman House	264000
+Eldridge Street Synagogue	80200
+Duke Ellington House	 4570000
+Empire State Building	141000000
+Equitable Building	19900000
+Hamilton Fish House	33900000
+Flatiron Building	4040000
+Founder's Hall, The Rockefeller University	31700
+Governors Island	15900000
+Grace Church	119000000
+Grand Central Terminal	18400000
+Green-Wood Cemetery	15300000
+Hamilton Grange National Memorial	137000
+Henry Street Settlement and Neighborhood Playhouse	29800
+Matthew Henson Residence	125000
+Hispanic Society of America Complex	1570000
+Holland Tunnel	4470000
+USS Intrepid	453000
+James Weldon Johnson Residence	70100
+King Manor	69600000
+Lettie G. Howard (schooner)	8590
+Lorillard Snuff Mill	16400
+Low Memorial Library	48700000
+R. H. Macy and Company Store (Macy's)	177000
+McGraw Hill Building	32300000
+Claude McKay Residence	188000
+Metropolitan Life Insurance Company Tower	 219000
+Metropolitan Museum of Art	40600000
+Pierpont Morgan Library	317000
+Morris-Jumel Mansion	 87700
+National City Bank Building	369000000
+New York Amsterdam News Building	2530000
+New York Botanical Garden	14400000
+New York Cotton Exchange	5820000
+New York Life Building	1080000000
+New York Public Library	528000000
+New York Stock Exchange	 222000000
+New York Studio School of Drawing, Painting and Sculpture	994000
+New York Yacht Club	 27400000
+Old Merchant's House	320000
+Old Quaker Meeting House	594000
+Philosophy Hall	54700000
+Players Club	521000000
+Plaza Hotel	116000000
+Plymouth Church of the Pilgrims	967000
+Pupin Physics Laboratory, Columbia University	6750
+Quarters A, Brooklyn Navy Yard	50900
+Paul Robeson Home	14100000
+Jackie Robinson House	28200000
+Rockefeller Center	26500000
+Sailors' Snug Harbor	79700
+St. Ann and the Holy Trinity Church	970000
+St. George's Episcopal Church	404000
+St. Patrick's Cathedral	5770000
+St. Paul's Chapel	5210000
+Margaret Sanger Clinic	96300
+Gen. Winfield Scott House	311000
+Seventh Regiment Armory	321000
+Harry F. Sinclair House	823000
+Alfred E. Smith House	15500000
+SoHo-Cast Iron Historic District	33000
+A. T. Stewart Company Store	113000000
+Stonewall	 4190000
+Surrogate's Court	 416000
+Tenement Building at 97 Orchard Street	17600
+Third Judicial District Courthouse	964000
+Tiffany and Company Building	15600000
+Samuel J. Tilden House	149000
+The Town Hall	668000000
+Triangle Shirtwaist Factory	200000
+Trinity Church	100000000
+Tweed Courthouse	241000
+Union Square	379000000
+United Charities Building	28600000
+U.S. Customhouse	412000000
+Van Cortlandt House	334000
+Voorlezer's House	1940
+Wards Point Archeological Site	 49700000
+Woodlawn Cemetery	300000
+Woolworth Building	 515000
+Wyckoff House	30800000
+Wyckoff-Bennett Homestead	135000
+USS Edson(DD-946)	10400
+Florence Mills House	9800000
+Fire Fighter	453000000
