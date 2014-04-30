@@ -70,10 +70,11 @@ public enum BusPlanner {
 				bus.update(vas.getMonitoredVehicleJourney().getVehicleLocation(),vas.getRecordedAtTime());
 				locations.put(ref.getValue(),bus);
 				System.out.println("Created " + ref.getValue());
-			}
-			
-		}
-		
+			}			
+		}		
 	}
+	
+	
+	
 	
 }

@@ -40,6 +40,7 @@ public class SolutionEvaluation {
 	}
 
 	private Double calculatePrecision() {
+		System.out.println("EVAL--- Precision" );
 		Double res = 0d;
 		int limit = options.size() >= 5 ? (AT_PRECISION.intValue()) : options.size();
 		List<Landmark> check = new ArrayList<Landmark>();
@@ -54,6 +55,7 @@ public class SolutionEvaluation {
 				LandmarkDTO lmdto = selected.get(j);
 				if(lm.name.equalsIgnoreCase(lmdto.name)) {					
 					res += (lmdto.st.equals(StoryType.LONG)) ? 1 : 0.8D;
+					System.out.println("Had " + lm.name + " and got "+ selected.get(j).name +" of type " +lmdto.st.toString() +" "+ res);
 					continue;
 				}
 			}
@@ -63,6 +65,7 @@ public class SolutionEvaluation {
 	}
 
 	private Double calculateRecall() {
+		System.out.println("EVAL--- Recall" );
 		Double res = 0d;
 		
 		int limit = options.size() >= 5 ? (AT_RECALL.intValue()) : options.size();
@@ -75,6 +78,7 @@ public class SolutionEvaluation {
 			Landmark lm = check.get(i);
 			for(int j=0; j<selected.size(); j++) {
 				if(lm.name.equalsIgnoreCase(selected.get(j).name)) {					
+					System.out.println("Had " + lm.name + " and got "+ selected.get(j).name + " go BUS! " + res);
 					res++;
 					continue;
 				}
@@ -91,9 +95,9 @@ public class SolutionEvaluation {
 	@Override
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		DecimalFormat df = new DecimalFormat("#.###");
-		return String.format("Solution created @%s has %d out of maximum capacity %d. We created a solution with %d elements out of %dand value %d. "
-				+ "Precicion %f and Recall %f", sdf.format(timestamp), W,value,selected.size(),N,relevance,value,df.format(precision),df.format(recall));
+		DecimalFormat df = new DecimalFormat("0.###");
+		return String.format("Solution created @ %s has %d out of maximum capacity %d."				
+				+ "Precicion %s and Recall %s", sdf.format(timestamp),value,W,df.format(precision),df.format(recall));
 	}
 
 

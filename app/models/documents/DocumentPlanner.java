@@ -74,7 +74,8 @@ public class DocumentPlanner {
 		Double[] weights = createWeights(landmarks);
 		if(N == 0) {
 			System.out.println("DOC PLAN--- FAILED No places nearby Just shooting for fillers");
-			List<Landmark> fillers = createFillers(W,0);
+			
+			List<Landmark> fillers = createFillers(W,0,res.busId);
 			for(Landmark f : fillers) {
 				res.addLandmarks(f, StoryType.FILLER);
 			}
@@ -144,7 +145,7 @@ public class DocumentPlanner {
 		DocumentEvaluator.INSTANCE.addSolution(res.busId, se);
 		if(solutionWeight < Math.floor(W*FILLER_T)) {
 			System.out.println("Solution has less than " + FILLER_T + " adding Fillers");
-			List<Landmark> fillers = createFillers(W,solutionWeight);
+			List<Landmark> fillers = createFillers(W,solutionWeight, res.busId);
 			for(Landmark f : fillers) {
 				res.addLandmarks(f, StoryType.FILLER);
 			}
@@ -152,10 +153,12 @@ public class DocumentPlanner {
 		return res;
 	}
 	
-	private List<Landmark> createFillers(int W, int sol){
+	private List<Landmark> createFillers(int W, int sol, String busId){
 		List<Landmark> res = new ArrayList<Landmark>();
 		int soFar = sol;
-		int i = 0;
+		Filler f0 = Places.INSTANCE.getRealTimeFiller(busId);
+		res.add(f0.asLandmark());
+		int i = 1;
 		Filler f = Places.INSTANCE.getFiller(i);
 		int max = Places.INSTANCE.howManyFillers()-1;
 		int value = f.text.split(" ").length; 

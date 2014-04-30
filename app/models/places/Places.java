@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import models.buses.BusPlanner;
+import models.buses.BusState;
+
 public enum Places {
 	INSTANCE;
 	private static final Double EarthRadius = 3959d;
@@ -33,8 +36,12 @@ public enum Places {
 	
 	public Filler getFiller(int i) {
 		Collections.sort(fillers);
-		return fillers.get(i);
-		
+		return fillers.get(i);		
+	}
+	
+	public Filler getRealTimeFiller(String busId) {
+		BusState bs = BusPlanner.INSTANCE.getBusById(busId);
+		return Filler.fromBusState(bs);
 	}
 	
 	public static List<Landmark> getNearby(Double lat, Double lon, Double r){
