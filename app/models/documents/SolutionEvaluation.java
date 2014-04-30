@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import scala.Array;
 import models.dto.LandmarkDTO;
 import models.places.Landmark;
 
 public class SolutionEvaluation {
-	
+
 	public int W;
 	public int N;
 	public List<Landmark> options = new ArrayList<Landmark>();
@@ -18,23 +19,57 @@ public class SolutionEvaluation {
 	public Double precision;
 	public Double recall;
 	public Date timestamp;
-	
+	private static final Double AT_RECALL=5d;
+
 	public SolutionEvaluation() {
-		
+
 	}
-	
+
 	public void prepareForEval() {
 		Collections.sort(options);
 	}
-	
+
 	public void evaluateSolution() {
-		
+		recall = calculateRecall();
+		precision = calculatePrecision();
 	}
-	
+
+	private Double calculatePrecision() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Double calculateRecall() {
+		Double res = 0d;
+		int limit = options.size() >= 5 ? (AT_RECALL.intValue()) : options.size();
+		List<Landmark> check = new ArrayList<Landmark>();
+		for(int i=0; i<limit; i++) {
+			check.add(options.get(i));
+		}
+
+		for(int i=0; i<limit ; i++) {
+			Landmark lm = check.get(i);
+			for(int j=0; j<selected.size(); j++) {
+				if(lm.name.equalsIgnoreCase(selected.get(j).name)) {
+					res++;
+					continue;
+				}
+			}
+		}
+
+		return res/AT_RECALL;
+	}
+
 	public void stamp() {
 		this.timestamp = new Date(System.currentTimeMillis());
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return String.format("Solution has capacity %d with %d elements with value %d. "
+				+ "Precicion %f and recall %f", W,N,value,precision,recall);
+	}
+
+
+
 }

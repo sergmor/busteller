@@ -53,17 +53,18 @@ public class Application extends Controller {
 	}
 	
 	public static Result stories(String busId) {
+		//busId = new String("MTA " + busId);
 		List<SolutionEvaluation> sols = DocumentEvaluator.INSTANCE.getEvaluations(busId);
 		if(sols != null) {
 			for(SolutionEvaluation se : sols) {
 				se.evaluateSolution();
+				System.out.println(se.toString());
 			}
 		}
 		//TODO return the appropriate thing!		
 		//return ok();
-		Gson gson = new Gson();
-    	String jsonPlace = gson.toJson(sols.toArray());
-    	return ok(jsonPlace);
+		
+    	return ok(sols.toString());
 	}
     
     public static Promise<Result> index() {
@@ -112,7 +113,9 @@ public class Application extends Controller {
                         	Set<String> keys = stories.keySet();
                         	for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
 								String key = iterator.next();
-								busStories.add(stories.get(key));								
+								busStories.add(stories.get(key));
+								//BusStoryDTO bs = stories.get(key);
+								//System.out.println(bs.toString());
 							}
                         	return ok(list.render(busStories));
                         	/*Gson gson = new Gson();

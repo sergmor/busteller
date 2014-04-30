@@ -62,12 +62,19 @@ public class BusStoryDTO{
 		//sb.append(this.busId);
 		//sb.append("\n");
 		for(LandmarkDTO lm: landmarks) {
+			sb.append("<p>");
 			sb.append(lm.name + "--- ");
-			sb.append("\n");
+			sb.append("</p>");
+			sb.append("<p>");
 			sb.append(lm.story);
-			sb.append("\n");
+			sb.append("</p>");
 		}
 		return sb.toString();
+	}
+	
+	@Override 
+	public String toString() {
+		return String.format("BusDTO for %s in coord lat: %s long:%s and %d stories", this.busId, this.buslat, this.busLong, this.landmarks.size());
 	}
 
 
