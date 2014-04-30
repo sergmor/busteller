@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import scala.Array;
 import models.dto.LandmarkDTO;
 import models.places.Landmark;
 import models.places.StoryType;
