@@ -45,7 +45,7 @@ public enum DataLoader {
 				String[] elems = line.split("\t");
 				String[] loc = elems[2].split(";");
 				if(loc[0].contains("N/A") || loc[1].contains("N/A")) continue;
-				SimpleDateFormat sdf = new SimpleDateFormat("MMMMMMMMM dd, YYYY");
+				SimpleDateFormat sdf = new SimpleDateFormat("MMMMMMMMM dd, yyyy");
 				Places.addLandmark(elems[0], sdf.parse(elems[1]) , new BigDecimal(loc[0].trim()), new BigDecimal(loc[1].trim()), elems[3], elems[4]);
 				
 			}
