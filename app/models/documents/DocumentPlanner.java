@@ -42,13 +42,16 @@ public class DocumentPlanner {
 			//Check where the bus is and decide if it need packing
 			if( (Math.abs(radius-bus.traveledSoFar) <= EPSILON_R*radius)){				
 				//Check that our new list of landmarks will not contain old landmarks
+				System.out.println("DOC PLAN--- Will pack " + busID + " epsilon is small");
 				BusStoryDTO packed = packBus(busID, W);
 				sacks.put(busID, packed);
 			} else if(!sacks.containsKey(busID)) { //the bus has never been packed
+				System.out.println("DOC PLAN--- Will pack " + busID + " has never been packed");
 				BusStoryDTO packed = packBus(busID, W);
 				sacks.put(busID, packed);
 			} else if (BusPlanner.INSTANCE.isTakingLonger(busID)) { //The bus average speed has changed
 				//Check that our new list of landmarks will not contain old landmarks
+				System.out.println("DOC PLAN--- Will pack " + busID + " will take much longer than expecter");
 				BusStoryDTO packed = packBus(busID, W);
 				sacks.put(busID, packed);
 			}
