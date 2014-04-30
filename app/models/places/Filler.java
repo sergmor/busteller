@@ -35,7 +35,7 @@ public class Filler implements Comparable<Filler> {
 		String text ="";
 		DecimalFormat df = new DecimalFormat("0.##");
 		if(bs.currentAvgSpeed < 0.1d) {
-			text = String.format("Hey I'm %s. It is soo slow today. My current avg speed is %s", bs.vehicleRef, df.format(bs.currentAvgSpeed));
+			text = String.format("Hey I'm %s. It is soo slow today. My current avg speed is %s Mph", bs.vehicleRef, df.format(bs.currentAvgSpeed));
 			Filler f = new Filler(Integer.MIN_VALUE, text);
 			return f;
 		} else if(bs.traveledSoFar > 5){
