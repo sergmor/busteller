@@ -114,7 +114,7 @@ public class Application extends Controller {
                     	 
                 		
                         if(siri!=null) {
-                        	//busStories.clear();
+                        	busStories.clear();
                         	DocumentPlanner dp = new DocumentPlanner();
                         	dp.radius = R;
                         	List<VehicleActivityStructure> buses = siri.getServiceDelivery().getVehicleMonitoringDelivery().get(0).getVehicleActivity();

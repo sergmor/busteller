@@ -8,6 +8,7 @@ import java.util.List;
 import scala.Array;
 import models.dto.LandmarkDTO;
 import models.places.Landmark;
+import models.places.StoryType;
 
 public class SolutionEvaluation {
 
@@ -20,7 +21,8 @@ public class SolutionEvaluation {
 	public Double recall;
 	public Date timestamp;
 	private static final Double AT_RECALL=5d;
-
+	private static final Double AT_PRECISION=5d;
+	
 	public SolutionEvaluation() {
 
 	}
@@ -30,17 +32,37 @@ public class SolutionEvaluation {
 	}
 
 	public void evaluateSolution() {
+		prepareForEval();
 		recall = calculateRecall();
 		precision = calculatePrecision();
 	}
 
 	private Double calculatePrecision() {
-		// TODO Auto-generated method stub
-		return null;
+		Double res = 0d;
+		int limit = options.size() >= 5 ? (AT_PRECISION.intValue()) : options.size();
+		List<Landmark> check = new ArrayList<Landmark>();
+		for(int i=0; i<limit; i++) {
+			check.add(options.get(i));
+		}
+
+		for(int i=0; i<limit ; i++) {
+			
+			Landmark lm = check.get(i);
+			for(int j=0; j<selected.size(); j++) {
+				LandmarkDTO lmdto = selected.get(j);
+				if(lm.name.equalsIgnoreCase(lmdto.name)) {					
+					res += (lmdto.st.equals(StoryType.LONG)) ? 1 : 0.8D;
+					continue;
+				}
+			}
+		}
+
+		return res/AT_PRECISION;
 	}
 
 	private Double calculateRecall() {
 		Double res = 0d;
+		
 		int limit = options.size() >= 5 ? (AT_RECALL.intValue()) : options.size();
 		List<Landmark> check = new ArrayList<Landmark>();
 		for(int i=0; i<limit; i++) {
@@ -50,7 +72,7 @@ public class SolutionEvaluation {
 		for(int i=0; i<limit ; i++) {
 			Landmark lm = check.get(i);
 			for(int j=0; j<selected.size(); j++) {
-				if(lm.name.equalsIgnoreCase(selected.get(j).name)) {
+				if(lm.name.equalsIgnoreCase(selected.get(j).name)) {					
 					res++;
 					continue;
 				}
