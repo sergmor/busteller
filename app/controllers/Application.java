@@ -26,6 +26,7 @@ import play.libs.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.stories.list;
+import views.html.stories.details;
 
 import com.google.gson.Gson;
 
@@ -50,6 +51,16 @@ public class Application extends Controller {
 	public static Result list()
 	{
 		return ok(list.render(busStories));
+	}
+	
+	public static Result details(String busId)
+	{
+		for(BusStoryDTO bus: busStories)
+		{
+			if (bus.busId.equalsIgnoreCase(busId))
+				return ok(details.render(bus));
+		}
+		return ok(details.render(null));
 	}
 	
 	public static Result stories(String busId) {
@@ -102,7 +113,7 @@ public class Application extends Controller {
                     	 
                 		
                         if(siri!=null) {
-                        	busStories.clear();
+                        	//busStories.clear();
                         	DocumentPlanner dp = new DocumentPlanner();
                         	dp.radius = R;
                         	List<VehicleActivityStructure> buses = siri.getServiceDelivery().getVehicleMonitoringDelivery().get(0).getVehicleActivity();
