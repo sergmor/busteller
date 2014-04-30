@@ -83,9 +83,12 @@ public class DocumentPlanner {
 		}
 		//Create objects for evaluation
 		SolutionEvaluation se = new SolutionEvaluation();
+		int relevance = 0;
+		
 		se.N = N;
 		se.W = W;
 		se.options = landmarks;
+		
 		
 		//Initialize Matrix
 		Double[][] mat = new Double[N][W];
@@ -121,9 +124,11 @@ public class DocumentPlanner {
                 Double weight = weights[i-1];                
                 if(weight == lm.getLongWeight()) {                	
                 	res.addLandmarks(lm, StoryType.LONG);
+                	relevance += lm.relevance;
                 	System.out.println("adding " + lm.name + " to bus " + res.busId + " long");
                 } else {
                 	res.addLandmarks(lm, StoryType.SHORT);
+                	relevance += lm.relevance;
                 	System.out.println("adding " + lm.name + " to bus " + res.busId + " short");
                 }
                 
@@ -133,6 +138,8 @@ public class DocumentPlanner {
         } 
 		
 		System.out.println("Created a sol for " + res.busId + " with total "+ solutionWeight + " out of " + W);
+		se.value = solutionWeight;
+		se.relevance = relevance;
 		se.selected = res.landmarks;
 		DocumentEvaluator.INSTANCE.addSolution(res.busId, se);
 		if(solutionWeight < Math.floor(W*FILLER_T)) {

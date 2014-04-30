@@ -1,5 +1,7 @@
 package models.documents;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -16,9 +18,10 @@ public class SolutionEvaluation {
 	public List<Landmark> options = new ArrayList<Landmark>();
 	public List<LandmarkDTO> selected = new ArrayList<LandmarkDTO>();
 	public int value;
-	public Double precision;
-	public Double recall;
+	public Double precision=0d;
+	public Double recall=0d;
 	public Date timestamp;
+	public int relevance;
 	private static final Double AT_RECALL=5d;
 	private static final Double AT_PRECISION=5d;
 	
@@ -87,8 +90,10 @@ public class SolutionEvaluation {
 
 	@Override
 	public String toString() {
-		return String.format("Solution has capacity %d with %d elements with value %d. "
-				+ "Precicion %f and recall %f", W,N,value,precision,recall);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		DecimalFormat df = new DecimalFormat("#.###");
+		return String.format("Solution created @%s has %d out of maximum capacity %d. We created a solution with %d elements out of %dand value %d. "
+				+ "Precicion %f and Recall %f", sdf.format(timestamp), W,value,selected.size(),N,relevance,value,df.format(precision),df.format(recall));
 	}
 
 
